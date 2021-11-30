@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import JournalApp from './JournalApp';
+import App from './App';
+
 
 import reportWebVitals from './reportWebVitals';
 
@@ -8,7 +9,7 @@ import './styles/styles.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <JournalApp />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
