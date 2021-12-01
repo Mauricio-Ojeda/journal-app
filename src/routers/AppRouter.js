@@ -13,7 +13,7 @@ const AppRouter = () => {
             <Routes>
                 <Route path="auth/*" element={ <AuthRouter /> } />
                 <Route exact path="/" element={ <JournalScreen /> } />
-                <Route path='*' element={<Navigate to="auth/login"  replace /> } />
+                <Route path="*" element={<Navigate to="auth/login"  replace /> } />
             </Routes>
             
         </BrowserRouter>
