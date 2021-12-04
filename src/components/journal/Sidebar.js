@@ -1,3 +1,5 @@
+import JournalEntries from "./JournalEntries"
+
 const Sidebar = () => {
     return (
         <aside className="journal__sidebar">
@@ -17,6 +19,9 @@ const Sidebar = () => {
                 <i className="far fa-calendar-plus fa-5x"></i>
                 <p className="mt-5">new entry</p>
             </div>
+
+
+            <JournalEntries />
         </aside>
     )
 }
