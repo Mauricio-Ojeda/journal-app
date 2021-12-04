@@ -1,6 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 
+
 const LoginScreen = () => {
     return (
         <Formik
@@ -31,8 +32,11 @@ const LoginScreen = () => {
                   
             }} 
         >{ ( { errors } ) => (
-            <>
+
+            <>  
+                
                 <h3 className="auth__title">Login</h3>
+
                 <Form >
                         <div >
                             <label htmlFor="email" className="form-label">Email address</label>
