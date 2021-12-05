@@ -107,7 +107,7 @@ const RegisterScreen = () => {
                        
                         
                                 <Link 
-                                    to="/auth/register"
+                                    to="/auth/login"
                                     className="link"
                                 >                                    
                                     If you have an account sing in
