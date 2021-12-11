@@ -3,14 +3,19 @@ import { useDispatch } from 'react-redux';
 
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Link } from "react-router-dom";
-import { login } from "../../actions/auth";
+import { startGoogleLogin, startLoginEmailPassword } from "../../actions/auth";
 
 const LoginScreen = () => {
   const [loginValues, setLoginValues] = useState({});
 
   const dispatch = useDispatch();
 
-  
+  const { email, password } = loginValues;
+
+  const handleGoogleLogin = () =>{
+    dispatch( startGoogleLogin() );
+  }
+
   return (
     <Formik
       initialValues={{
@@ -34,7 +39,7 @@ const LoginScreen = () => {
       }}
       onSubmit={(values, { resetForm }) => {
         setLoginValues(values);
-        dispatch( login( 123456, 'Mauricio') );
+        dispatch( startLoginEmailPassword( values.email, values.password ) );
         resetForm();
       }}
     >
@@ -88,7 +93,10 @@ const LoginScreen = () => {
 
             <div className="auth__social-networks">
               <p>Login with social networks</p>
-              <div className="google-btn">
+              <div 
+                className="google-btn"
+                onClick={ handleGoogleLogin }
+                >
                 <div className="google-icon-wrapper">
                   <img
                     className="google-icon"
