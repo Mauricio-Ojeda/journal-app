@@ -1,3 +1,4 @@
+import { collectionGroup } from 'firebase/firestore';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 
@@ -26,8 +27,8 @@ const RegisterScreen = () => {
 
                 if( !password || password.trim() === ''){
                     error.password = 'Please enter your password'
-                } else if ( password.length < 4 ){
-                    error.password = 'Minimum length is 4 characters'
+                } else if ( password.length < 6 ){
+                    error.password = 'Minimum length is 6 characters'
                 }
 
                 if( password !== confirmPassword ){
@@ -38,8 +39,9 @@ const RegisterScreen = () => {
             }}
 
             onSubmit ={ ( values, { resetForm } ) => {
-                    resetForm();
                     
+                    resetForm();
+                    console.log(values)
                   
             }} 
         >{ ( { errors } ) => (
