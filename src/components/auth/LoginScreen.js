@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
+import * as Yup from 'yup';
 import { Link } from "react-router-dom";
 import { startGoogleLogin, startLoginEmailPassword } from "../../actions/auth";
 
@@ -10,11 +11,16 @@ const LoginScreen = () => {
 
   const dispatch = useDispatch();
 
-  const { email, password } = loginValues;
+  
 
   const handleGoogleLogin = () =>{
     dispatch( startGoogleLogin() );
   }
+
+  const LoginSchema = Yup.object().shape({
+          email: Yup.string().email('Invalid email').required('Required'),
+          password: Yup.string().min( 6, 'Must contain 6 characters' ).required('Required'),
+  })
 
   return (
     <Formik
@@ -22,28 +28,14 @@ const LoginScreen = () => {
         email: '',
         password: '',
       }}
-      validate={(values) => {
-        let error = {};
-        const { email, password } = values;
-        if (!email) {
-          error.email = "Please enter your Email";
-        }
-
-        if (!password || password.trim() === "") {
-          error.password = "Please enter your password";
-        } else if (password.length < 4) {
-          error.password = "Minimum length is 4 characters";
-        }
-
-        return error;
-      }}
+      validationSchema={ LoginSchema }
       onSubmit={(values, { resetForm }) => {
         setLoginValues(values);
         dispatch( startLoginEmailPassword( values.email, values.password ) );
         resetForm();
       }}
     >
-      {({ errors }) => (
+      {({ errors, touched }) => (
         <>
           <h3 className="auth__title">Login</h3>
 
@@ -60,12 +52,9 @@ const LoginScreen = () => {
                 aria-describedby="emailHelp"
                 autoComplete="off"
               />
-              <ErrorMessage
-                name="email"
-                component={() => (
-                  <p className="auth__alert-error">{errors.email}</p>
-                )}
-              />
+
+              { ( touched.email && errors.email )&& <p className="auth__alert-error">{ errors.email }</p> }
+
             </div>
             <div>
               <label htmlFor="password" className="form-label">
@@ -78,12 +67,9 @@ const LoginScreen = () => {
                 name="password"
                 autoComplete="off"
               />
-              <ErrorMessage
-                name="password"
-                component={() => (
-                  <p className="auth__alert-error">{errors.password}</p>
-                )}
-              />
+              
+              { ( touched.password && errors.password ) && <p className="auth__alert-error">{ errors.password }</p> }
+
             </div>
             <div>
               <button type="submit" className="btn btn-primary btn-block">
