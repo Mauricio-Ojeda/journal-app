@@ -1,50 +1,40 @@
-import { collectionGroup } from 'firebase/firestore';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 
 const RegisterScreen = () => {
+
+    // validation schema
+    const RegisterSchema = Yup.object().shape({
+        name: Yup.string()
+          .min(2, 'Too Short!')
+          .max(15, 'Too Long!')
+          .required('Required'),
+        email: Yup.string().email('Invalid email').required('Required'),
+        password: Yup.string().min( 6, 'Must contain 6 characters' ).required('Required'),
+        passwordConfirmation: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match').required('Required')
+      });
+
+
+
     return (
         <Formik
             initialValues={{
                     name:'',
                     email: '',
                     password: '',
-                    confirmPassword:'',
+                    passwordConfirmation:'',
                     
                 }}
-            validate = {( values ) =>{
-                let error = {};
-                const { name, email, password, confirmPassword } = values;
-                if( !name || name.trim() === ''){
-                    error.name = 'Please enter your Name'
-                } else if ( password.length < 3 ){
-                    error.password = 'Minimum length is 3 characters'
-                } 
-
-                if( !email ){
-                    error.email = 'Please enter your Email'
-                };
-
-                if( !password || password.trim() === ''){
-                    error.password = 'Please enter your password'
-                } else if ( password.length < 6 ){
-                    error.password = 'Minimum length is 6 characters'
-                }
-
-                if( password !== confirmPassword ){
-                    error.confirmPassword = 'The password are different'
-                } 
-
-                return error;
-            }}
-
+            validationSchema = { RegisterSchema }
             onSubmit ={ ( values, { resetForm } ) => {
                     
                     resetForm();
                     console.log(values)
                   
             }} 
-        >{ ( { errors } ) => (
+        >{ ( { errors, touched } ) => (
             <>
                 <h3 className="auth__title">Register</h3>
                           
@@ -61,7 +51,7 @@ const RegisterScreen = () => {
                                 autoComplete="off"
 
                             />
-                            <ErrorMessage name="name" component={ () =>( <p className="auth__alert-error">{ errors.name }</p> )} />
+                            { touched.name && errors.name && <p className="auth__alert-error">{ errors.name }</p> }
                             
 
                         </div>
@@ -76,7 +66,7 @@ const RegisterScreen = () => {
                                 autoComplete="off"
 
                             />
-                            <ErrorMessage name="email" component={ () =>( <p className="auth__alert-error">{ errors.email }</p> )} />
+                            { touched.email && errors.email && <p className="auth__alert-error">{ errors.email }</p> }
                             
                         </div>
                         <div >
@@ -89,19 +79,19 @@ const RegisterScreen = () => {
                                 autoComplete="off"
 
                             />
-                            <ErrorMessage name="password" component={ () =>( <p className="auth__alert-error">{ errors.password }</p> )} />
+                            { touched.password && errors.password && <p className="auth__alert-error">{ errors.password }</p> }
                         </div>
                         <div >
                             <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
                             <Field 
                                 type="password" 
                                 className="auth__input" 
-                                id="confirmPassword"
-                                name="confirmPassword"
+                                id="passwordConfirmation"
+                                name="passwordConfirmation"
                                 autoComplete="off"
 
                             />
-                            <ErrorMessage name="confirmPassword" component={ () =>( <p className="auth__alert-error">{ errors.confirmPassword }</p> )} />
+                            { touched.passwordConfirmation && errors.passwordConfirmation && <p className="auth__alert-error">{ errors.passwordConfirmation }</p> }
                         </div>
                         <div >
                             <button type="submit" className="btn btn-primary btn-block mb-5"  >Register</button>
