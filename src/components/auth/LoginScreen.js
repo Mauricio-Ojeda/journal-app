@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { useDispatch } from 'react-redux';
 
 import { Field, Form, Formik } from "formik";
@@ -7,8 +7,7 @@ import { Link } from "react-router-dom";
 import { startGoogleLogin, startLoginEmailPassword } from "../../actions/auth";
 
 const LoginScreen = () => {
-  const [loginValues, setLoginValues] = useState({});
-
+  
   const dispatch = useDispatch();
 
   
@@ -17,6 +16,7 @@ const LoginScreen = () => {
     dispatch( startGoogleLogin() );
   }
 
+  // Validation schema
   const LoginSchema = Yup.object().shape({
           email: Yup.string().email('Invalid email').required('Required'),
           password: Yup.string().min( 6, 'Must contain 6 characters' ).required('Required'),
@@ -30,7 +30,6 @@ const LoginScreen = () => {
       }}
       validationSchema={ LoginSchema }
       onSubmit={(values, { resetForm }) => {
-        setLoginValues(values);
         dispatch( startLoginEmailPassword( values.email, values.password ) );
         resetForm();
       }}

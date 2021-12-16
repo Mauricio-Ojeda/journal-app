@@ -1,8 +1,13 @@
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { startRegisterWithEmailPasswordName } from '../../actions/auth';
 
 const RegisterScreen = () => {
+
+
+    const dispatch = useDispatch();
 
     // validation schema
     const RegisterSchema = Yup.object().shape({
@@ -29,9 +34,9 @@ const RegisterScreen = () => {
                 }}
             validationSchema = { RegisterSchema }
             onSubmit ={ ( values, { resetForm } ) => {
-                    
-                    resetForm();
-                    console.log(values)
+                    const { email, password, name } = values;
+                    dispatch(startRegisterWithEmailPasswordName( email, password, name ));
+                    resetForm();              
                   
             }} 
         >{ ( { errors, touched } ) => (

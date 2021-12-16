@@ -1,5 +1,5 @@
 import { auth, googleAuthProvider } from "../firebase/firebaseConfig";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
 
 import { types } from "../types/types";
 
@@ -9,6 +9,22 @@ export const startLoginEmailPassword = ( email, password ) => {
            dispatch( login(123, 'mauri') );
            
        }, 3500); 
+    }
+}
+
+export const startRegisterWithEmailPasswordName = ( email, password, name ) => {
+    return ( dispatch ) => {
+        createUserWithEmailAndPassword( auth, email, password )
+            .then( (userCredential) => { 
+               
+                const user = userCredential.user;
+                user.displayName = name;
+                dispatch( login( user.uid, user.displayName ) );
+
+            } )
+            .catch( error => {
+              console.log(error)
+             })
     }
 }
 
