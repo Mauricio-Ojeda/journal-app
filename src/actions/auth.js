@@ -1,24 +1,26 @@
 import { auth, googleAuthProvider } from "../firebase/firebaseConfig";
-import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithPopup, createUserWithEmailAndPassword, updateProfile ,signInWithEmailAndPassword } from "firebase/auth";
 
 import { types } from "../types/types";
 
 export const startLoginEmailPassword = ( email, password ) => {
     return ( dispatch ) => {
-       setTimeout(() => {
-           dispatch( login(123, 'mauri') );
-           
-       }, 3500); 
-    }
+       signInWithEmailAndPassword(auth, email, password)
+            .then( ({ user }) => {
+                console.log(user)
+                dispatch( login( user.uid, user.displayName ) );
+            });
+}
 }
 
 export const startRegisterWithEmailPasswordName = ( email, password, name ) => {
     return ( dispatch ) => {
         createUserWithEmailAndPassword( auth, email, password )
-            .then( (userCredential) => { 
+            .then( async (userCredential) => { 
                
                 const user = userCredential.user;
-                user.displayName = name;
+                await updateProfile( user, { displayName: name });
+                console.log(user);
                 dispatch( login( user.uid, user.displayName ) );
 
             } )
