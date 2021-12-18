@@ -1,5 +1,5 @@
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
@@ -9,8 +9,7 @@ import { startGoogleLogin, startLoginEmailPassword } from "../../actions/auth";
 const LoginScreen = () => {
   
   const dispatch = useDispatch();
-
-  
+  const { loading } = useSelector( state => state.ui );  
 
   const handleGoogleLogin = () =>{
     dispatch( startGoogleLogin() );
@@ -71,7 +70,7 @@ const LoginScreen = () => {
 
             </div>
             <div>
-              <button type="submit" className="btn btn-primary btn-block">
+              <button type="submit" className="btn btn-primary btn-block" disabled={ loading }>
                 Login
               </button>
             </div>
