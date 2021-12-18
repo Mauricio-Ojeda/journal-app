@@ -21,16 +21,19 @@ export const startLoginEmailPassword = ( email, password ) => {
 
 export const startRegisterWithEmailPasswordName = ( email, password, name ) => {
     return ( dispatch ) => {
+        dispatch( startLoading() );
         createUserWithEmailAndPassword( auth, email, password )
             .then( async (userCredential) => { 
                
                 const user = userCredential.user;
                 await updateProfile( user, { displayName: name });
                 dispatch( login( user.uid, user.displayName ) );
+                dispatch( finishLoading() );
 
             } )
             .catch( error => {
-              console.log(error)
+              console.log(error);
+              dispatch( finishLoading() );
              })
     }
 }

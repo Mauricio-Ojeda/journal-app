@@ -1,13 +1,14 @@
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { startRegisterWithEmailPasswordName } from '../../actions/auth';
 
 const RegisterScreen = () => {
 
 
     const dispatch = useDispatch();
+    const { loading } = useSelector( state => state.ui );
 
     // validation schema
     const RegisterSchema = Yup.object().shape({
@@ -99,7 +100,7 @@ const RegisterScreen = () => {
                             { ( touched.passwordConfirmation && errors.passwordConfirmation ) && <p className="auth__alert-error">{ errors.passwordConfirmation }</p> }
                         </div>
                         <div >
-                            <button type="submit" className="btn btn-primary btn-block mb-5"  >Register</button>
+                            <button type="submit" className="btn btn-primary btn-block mb-5" disabled={ loading } >Register</button>
                         </div>
                        
                         
