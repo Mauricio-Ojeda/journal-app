@@ -4,6 +4,8 @@ import { signInWithPopup, createUserWithEmailAndPassword, updateProfile ,signInW
 import { types } from "../types/types";
 import { finishLoading, startLoading } from "./ui";
 
+import Swal from 'sweetalert2';
+
 export const startLoginEmailPassword = ( email, password ) => {
     return ( dispatch ) => {
        dispatch( startLoading() ); 
@@ -12,9 +14,18 @@ export const startLoginEmailPassword = ( email, password ) => {
                 dispatch( login( user.uid, user.displayName ) );
                 dispatch( finishLoading() );
             })
-            .catch( error => {
-                console.log(error);
+            .catch( ( e ) => {
+                console.log(e.code);
                 dispatch( finishLoading() );
+                if( e.code === 'auth/user-not-found' ){
+                    Swal.fire('ERROR', 'User not found, please enter a valid Email', 'error');
+                }else if( e.code === 'auth/wrong-password' ){
+                    Swal.fire('ERROR', 'Wrong Password, please try with another', 'error');
+                }else{
+                    Swal.fire('ERROR', 'User not found, please verify your email and password are correct', 'error');
+
+                }
+                
             });
     }
 }
@@ -31,10 +42,17 @@ export const startRegisterWithEmailPasswordName = ( email, password, name ) => {
                 dispatch( finishLoading() );
 
             } )
-            .catch( error => {
-              console.log(error);
+            .catch( e => {
+              console.log(e.code);
               dispatch( finishLoading() );
-             })
+              if( e.code === 'auth/email-already-in-use' ){
+                  Swal.fire('ERROR', 'Email already in use, please try with another', 'error');
+              }else{
+                  Swal.fire('ERROR', 'Error has ocurred please try again', 'error');
+  
+              }
+            });
+            
     }
 }
 
