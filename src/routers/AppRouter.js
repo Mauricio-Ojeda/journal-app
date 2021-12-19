@@ -6,14 +6,15 @@ import {
     Navigate
 } from "react-router-dom";
 
+import AuthRouter from "./AuthRouter";
+import PublicRoute from "./PublicRoute";
+import PrivateRoute from "./PrivateRoute";
 import { useDispatch } from "react-redux";
 import JournalScreen from "../components/journal/JournalScreen";
-import AuthRouter from "./AuthRouter";
 
 import { auth } from "../firebase/firebaseConfig";
 import { login } from "../actions/auth";
 import Spinner from "../components/atoms/Spinner";
-import PublicRoute from "./PublicRoute";
 
 const AppRouter = () => {
 
@@ -46,7 +47,7 @@ const AppRouter = () => {
                 <Route 
                     path="auth/*" 
                     element={ 
-                        <PublicRoute>
+                        <PublicRoute isLoggedIn={ isLoggedIn } >
                             <AuthRouter /> 
 
                         </PublicRoute>
@@ -56,7 +57,10 @@ const AppRouter = () => {
                 <Route 
                     exact path="/" 
                     element={ 
-                        <JournalScreen /> 
+                        <PrivateRoute isLoggedIn={ isLoggedIn } >
+                            <JournalScreen /> 
+
+                        </PrivateRoute>
                     } 
 
                 />
