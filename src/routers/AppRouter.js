@@ -13,25 +13,26 @@ import AuthRouter from "./AuthRouter";
 import { auth } from "../firebase/firebaseConfig";
 import { login } from "../actions/auth";
 import Spinner from "../components/atoms/Spinner";
+import PublicRoute from "./PublicRoute";
 
 const AppRouter = () => {
 
     const dispatch = useDispatch();
 
     const [checking, setChecking] = useState(true);
-    const [inLoggedIn, setInLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
        auth.onAuthStateChanged( (user) => {
            if ( user?.uid ) {
                dispatch( login( user.uid, user.displayName ) );
-               setInLoggedIn( true );
+               setIsLoggedIn( true );
            }else{
-               setInLoggedIn(false);
+               setIsLoggedIn(false);
            }
            setChecking(false);
        } )
-    }, [ dispatch, setChecking, setInLoggedIn ]);
+    }, [ dispatch, setChecking, setIsLoggedIn ]);
 
     if ( checking ) {
         return (
@@ -42,8 +43,23 @@ const AppRouter = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="auth/*" element={ <AuthRouter /> } />
-                <Route exact path="/" element={ <JournalScreen /> } />
+                <Route 
+                    path="auth/*" 
+                    element={ 
+                        <PublicRoute>
+                            <AuthRouter /> 
+
+                        </PublicRoute>
+                    } 
+
+                />
+                <Route 
+                    exact path="/" 
+                    element={ 
+                        <JournalScreen /> 
+                    } 
+
+                />
                 <Route path="*" element={<Navigate to="auth/login"  replace /> } />
             </Routes>
             
