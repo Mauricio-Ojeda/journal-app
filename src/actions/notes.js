@@ -1,5 +1,6 @@
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
+import { types } from "../types/types";
 
 
 export const startNewNote = () =>{
@@ -13,8 +14,16 @@ export const startNewNote = () =>{
         }
 
         const docRef = await addDoc( collection(db, `${ uid }/journal/notes`), newNote);
-       
+        
+        dispatch( activeNote( docRef.id, newNote ) );
 
-        console.log(docRef);
     }
 }
+
+export const activeNote = ( id, note ) => ({
+    type: types.notesActive,
+    payload: {
+        id,
+        ...note
+    }
+})
