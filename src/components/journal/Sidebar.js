@@ -5,12 +5,12 @@ import JournalEntries from "./JournalEntries"
 const Sidebar = () => {
 
     const dispatch = useDispatch();
+    const { name } = useSelector( state => state.auth );
 
     const handleLogOut = () => {
         dispatch( startLogout() );
     }
 
-    const { name } = useSelector( state => state.auth );
     
     return (
         <aside className="journal__sidebar">
