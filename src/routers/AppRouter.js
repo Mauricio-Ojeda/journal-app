@@ -7,14 +7,16 @@ import {
 } from "react-router-dom";
 
 import AuthRouter from "./AuthRouter";
+import Spinner from "../components/atoms/Spinner";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
-import { useDispatch } from "react-redux";
 import JournalScreen from "../components/journal/JournalScreen";
 
 import { auth } from "../firebase/firebaseConfig";
 import { login } from "../actions/auth";
-import Spinner from "../components/atoms/Spinner";
+import { useDispatch } from "react-redux";
+import { loadNotes } from "../helpers/loadNotes";
+import { setNotes } from "../actions/notes";
 
 const AppRouter = () => {
 
@@ -24,10 +26,12 @@ const AppRouter = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-       auth.onAuthStateChanged( (user) => {
+       auth.onAuthStateChanged( async (user) => {
            if ( user?.uid ) {
                dispatch( login( user.uid, user.displayName ) );
                setIsLoggedIn( true );
+               const notes = await loadNotes( user.uid );
+               dispatch( setNotes( notes ) );
            }else{
                setIsLoggedIn(false);
            }
