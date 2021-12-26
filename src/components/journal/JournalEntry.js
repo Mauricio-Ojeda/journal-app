@@ -1,27 +1,34 @@
-import React from 'react'
+import React from 'react';
+import dayjs from 'dayjs';
 
-const JournalEntry = () => {
+const JournalEntry = ({ id, date, title, body, url }) => {
+
+    const noteDate = dayjs( date );
+    console.log(noteDate);
+
     return (
         <div className="journal__entry">
-            <div 
-                className="journal__entry-picture"
-                style={{
-                    backgroundSize: 'cover',
-                    backgroundImage: 'url(https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80)',
-                }}
-            ></div>
+            { ( url ) &&
+                <div 
+                    className="journal__entry-picture"
+                    style={{
+                        backgroundSize: 'cover',
+                        backgroundImage: `${ url }`,
+                    }}
+                ></div>
+            }
             <div className="journal__entry-body">
                 <p className="journal__entry-title">
-                    Buen dia
+                    { title }
                 </p>
                 <p className="journal__entry-content">
-                    Lorem ipsum dolor sit amet, oluptatem molestiae.
+                   { body }
                 </p>
             </div>
 
             <div className="journal__entry-date-box">
-                <span>Monday</span>
-                <h4>04</h4>
+                <span>{ noteDate.format('dddd') }</span>
+                <h4> { noteDate.date() } </h4>
             </div>
             
         </div>
