@@ -19,7 +19,6 @@ const NotesAppBar = () => {
         const file = e.target.files[0];
         if ( file ) {
             dispatch( startUploading( file ) );
-            console.log('onChange file')
         }
     }
 
@@ -33,6 +32,7 @@ const NotesAppBar = () => {
                 type="file" 
                 style={ { display: 'none' } }
                 onChange={ handleOnChangeFile } 
+                accept='image/*'
 
             />
 

@@ -53,8 +53,8 @@ const NoteScreen = () => {
         {note.url && (
           <div className="notes__image">
             <img
-              src="https://us.123rf.com/450wm/noravector/noravector1901/noravector190100277/115431176-you-re-awesome-vector-illustrated-comic-book-style-phrase-on-abstract-background-.jpg?ver=6"
-              alt="awesome"
+              src={note.url}
+              alt={title}
             />
           </div>
         )}

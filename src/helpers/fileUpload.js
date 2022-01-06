@@ -5,18 +5,21 @@ export const fileUpload =  ( file ) => {
     const formData = new FormData();
     formData.append('upload_preset', 'React-Journal');
     formData.append('file', file);
-     axios.post(cloudURL, formData)
-      .then( async (res) => { 
-        if (res.statusText === 'OK') {
-          const fileUrl = await res.data.secure_url;
-          console.log(fileUrl);       
-          return  fileUrl
-          
-        }else {
-          throw await ( res.data.message );
-        }
-      })
-      .catch( (error) => {
-        console.log(error);
-      });
+    
+    return(
+       axios.post(cloudURL, formData)
+        .then( (res) => { 
+          if (res.statusText === 'OK') {
+            const fileUrl = res.data.secure_url;
+            console.log(fileUrl+' file url');
+            return fileUrl     
+                      
+          }else {
+            throw ( res.data.message );
+          }
+        })
+        .catch( (error) => {
+          console.log(error);
+        })
+    );
 }

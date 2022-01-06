@@ -11,15 +11,15 @@ const JournalEntry = ({ id, date, title, body, url }) => {
     const handleEntryNote = () => {
         dispatch( activeNote( id, { date, title, body, url } ) )
     }    
-
+    
     return (
         <div className="journal__entry" onClick={ handleEntryNote }>
             { ( url ) &&
                 <div 
                     className="journal__entry-picture"
                     style={{
+                        backgroundImage: `url(${ url })`,
                         backgroundSize: 'cover',
-                        backgroundImage: `${ url }`,
                     }}
                 ></div>
             }
