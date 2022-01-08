@@ -29,7 +29,7 @@ const NotesAppBar = () => {
 
     return (
         <div className="notes__appbar">
-            <span> { notesBarDate.format('yyyy') }  </span>
+            <span> { notesBarDate.format('DD/MMMM/YYYY') }  </span>
 
             <input
                 id='fileSelector' 
