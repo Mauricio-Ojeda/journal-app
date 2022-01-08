@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { activeNote } from "../../actions/notes";
+import { activeNote, startDeleteNote } from "../../actions/notes";
 import { useForm } from "../../hooks/useForm";
 import NotesAppBar from "./NotesAppBar";
 
@@ -28,6 +28,10 @@ const NoteScreen = () => {
     dispatch(activeNote(values.id, { ...values }));
   }, [values, dispatch]);
 
+  const handleDelete = () => {
+    dispatch( startDeleteNote( activeId ) )
+  }
+
   return (
     <div className="notes__main-content">
       <NotesAppBar />
@@ -41,7 +45,7 @@ const NoteScreen = () => {
           id="title"
           value={title}
           onChange={handleInputChange}
-          autofocus
+          autoFocus
         />
         <textarea
           placeholder="What happened today"
@@ -60,6 +64,12 @@ const NoteScreen = () => {
           </div>
         )}
       </div>
+      <button 
+        className="btn btn-danger"
+        onClick={ handleDelete }
+      > 
+        Delete 
+      </button>
     </div>
   );
 };
