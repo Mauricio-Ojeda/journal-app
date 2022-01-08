@@ -41,6 +41,7 @@ const NoteScreen = () => {
           id="title"
           value={title}
           onChange={handleInputChange}
+          autofocus
         />
         <textarea
           placeholder="What happened today"

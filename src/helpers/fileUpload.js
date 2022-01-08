@@ -11,7 +11,6 @@ export const fileUpload =  ( file ) => {
         .then( (res) => { 
           if (res.statusText === 'OK') {
             const fileUrl = res.data.secure_url;
-            console.log(fileUrl+' file url');
             return fileUrl     
                       
           }else {

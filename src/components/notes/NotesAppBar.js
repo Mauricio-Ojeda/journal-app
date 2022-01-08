@@ -1,14 +1,18 @@
 import React from 'react'
+import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
 import { startSaveNote, startUploading } from '../../actions/notes';
+
 
 const NotesAppBar = () => {
     const { active:note } = useSelector( state => state.notes );
     const dispatch = useDispatch();
+
+    const notesBarDate = dayjs( note.date );
     
     const handleSave = () => {
         dispatch( startSaveNote( note ) );
-        console.log(note)
+        
     };
 
     const handleOnClickPicture = () => {
@@ -25,7 +29,7 @@ const NotesAppBar = () => {
 
     return (
         <div className="notes__appbar">
-            <span> 4 de Diciembre del 2021</span>
+            <span> { notesBarDate.format('d MMMM yyyy') }  </span>
 
             <input
                 id='fileSelector' 
