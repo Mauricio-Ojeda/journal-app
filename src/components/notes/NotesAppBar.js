@@ -12,7 +12,7 @@ const NotesAppBar = () => {
     
     const handleSave = () => {
         dispatch( startSaveNote( note ) );
-        
+               
     };
 
     const handleOnClickPicture = () => {
@@ -29,7 +29,7 @@ const NotesAppBar = () => {
 
     return (
         <div className="notes__appbar">
-            <span> { notesBarDate.format('d MMMM yyyy') }  </span>
+            <span> { notesBarDate.format('yyyy') }  </span>
 
             <input
                 id='fileSelector' 

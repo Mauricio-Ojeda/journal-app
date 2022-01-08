@@ -5,13 +5,14 @@ import { types } from "../types/types";
 import { finishLoading, startLoading } from "./ui";
 
 import Swal from 'sweetalert2';
+import { notesLogout } from "./notes";
 
 export const startLoginEmailPassword = ( email, password ) => {
     return ( dispatch ) => {
        dispatch( startLoading() ); 
        signInWithEmailAndPassword(auth, email, password)
             .then( ({ user }) => {
-                console.log(user)
+                
                 dispatch( login( user.uid, user.displayName ) );
                 dispatch( finishLoading() );
             })
@@ -85,6 +86,7 @@ export const startLogout = () => {
     return async( dispatch ) => {
         await auth.signOut();
         dispatch( logout() );
+        dispatch(notesLogout());
     }
 }
 

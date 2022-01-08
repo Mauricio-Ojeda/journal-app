@@ -11,28 +11,30 @@ export const startNewNote = () =>{
     return async ( dispatch, getState ) => {
         dispatch( startLoading() );
         const uid = getState().auth.uid;
-        
+                
         const newNote = {
             title:'',
             body:'',
             date: new Date().getTime(),
         }
-
+        
         const docRef = await addDoc( collection(db, `${ uid }/journal/notes`), newNote);
         
-        dispatch( activeNote( docRef.id, newNote ) );
+        dispatch( activeNote( docRef.id, newNote ) );              
         dispatch( finishLoading() );
 
     }
 };
 
 export const activeNote = ( id, note ) => ({
+    
     type: types.notesActive,
     payload: {
         id,
-        ...note
+        ...note,
     }
 });
+
 
 export const startLoadingNotes = ( uid ) => {
     return async ( dispatch ) => {
@@ -60,15 +62,18 @@ export const startSaveNote = ( note ) => {
     try{
           const noteRef = doc(db,`${uid}`, 'journal','notes',`${ note.id }`);
   
-          await setDoc( noteRef, noteToFirestore );
-  
+          await setDoc( noteRef, noteToFirestore );         
           dispatch( refreshNotes( note.id, noteToFirestore ) );
           Swal.fire('Saved', note.title, 'success'); 
       } catch( e ){
             console.log(e)
             Swal.fire('Error', 'please try again', 'error');
-      }  
+      }
+    // Load Notes to appear in sideBar  
+    const notes = await loadNotes( uid );
+    dispatch( setNotes( notes ) );    
     }
+
 }
 
 export const refreshNotes = ( id, note ) => ({
@@ -105,7 +110,7 @@ export const startUploading = ( file ) => {
 }
 
 export const startDeleteNote = ( id ) => {
-    console.log(id)
+    
     return async ( dispatch, getState ) => {
         const { uid } = getState().auth;
 
@@ -119,4 +124,9 @@ export const deleteNote = ( id ) => ({
     type: types.notesDelete,
     payload: id 
 
+})
+
+export const notesLogout = () => ({
+    type: types.notesLogoutCleaning,
+    
 })
