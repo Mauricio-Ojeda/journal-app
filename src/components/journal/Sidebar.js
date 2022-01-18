@@ -4,6 +4,7 @@ import { startNewNote } from "../../actions/notes";
 import JournalEntries from "./JournalEntries"
 
 const Sidebar = () => {
+    const noteScreen = document.querySelector('#noteScreen');
 
     const dispatch = useDispatch();
     const { name } = useSelector( state => state.auth );
@@ -14,6 +15,7 @@ const Sidebar = () => {
 
     const handleAddNew = () => {
         dispatch( startNewNote() );
+        noteScreen.scrollIntoView({behavior: "smooth"});
     }
     return (
         <aside className="journal__sidebar">

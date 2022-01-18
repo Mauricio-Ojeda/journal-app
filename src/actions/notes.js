@@ -113,10 +113,22 @@ export const startDeleteNote = ( id ) => {
     
     return async ( dispatch, getState ) => {
         const { uid } = getState().auth;
+        Swal.fire({
+            title: 'Do you want to delete this note?',
+            showDenyButton: true,
+            confirmButtonText: 'Delete',
+            denyButtonText: `Don't delete`,
+          }).then( async (result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if  (result.isConfirmed) {
+              Swal.fire('Deleted!', '', 'success');
+              await  deleteDoc(doc(db,`${uid}`, 'journal','notes',`${ id.current }`));
+              dispatch( deleteNote( id ) );
+            } else if (result.isDenied) {
+              Swal.fire('Note are not deleted', '', 'info')
+            }
+          })
 
-        await deleteDoc(doc(db,`${uid}`, 'journal','notes',`${ id.current }`));
-
-        dispatch( deleteNote( id ) );
     }
 };
 

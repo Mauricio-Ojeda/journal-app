@@ -5,15 +5,18 @@ import { activeNote } from '../../actions/notes';
 
 const JournalEntry = ({ id, date, title, body, url }) => {
 
+    const noteScreen = document.querySelector('#noteScreen');
+
     const noteDate = dayjs( date );
     const dispatch = useDispatch();
     
     const handleEntryNote = () => {
-        dispatch( activeNote( id, { date, title, body, url } ) )
+        dispatch( activeNote( id, { date, title, body, url } ) );
+        noteScreen.scrollIntoView({behavior: "smooth"});
     }    
     
     return (
-        <div className="journal__entry" onClick={ handleEntryNote }>
+        <div className="journal__entry  animate__animated animate__fadeInLeft animate__faster" onClick={ handleEntryNote }>
             { ( url ) &&
                 <div 
                     className="journal__entry-picture"

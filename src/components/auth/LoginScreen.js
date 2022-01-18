@@ -34,7 +34,7 @@ const LoginScreen = () => {
       }}
     >
       {({ errors, touched }) => (
-        <>
+        <div className="animate__animated animate__fadeIn">
           <h3 className="auth__title">Login</h3>
 
           <Form>
@@ -97,7 +97,7 @@ const LoginScreen = () => {
               Create new account
             </Link>
           </Form>
-        </>
+        </div>
       )}
     </Formik>
   );

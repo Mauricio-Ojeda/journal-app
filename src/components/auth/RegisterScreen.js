@@ -41,7 +41,7 @@ const RegisterScreen = () => {
                   
             }} 
         >{ ( { errors, touched } ) => (
-            <>
+            <div className="animate__animated animate__fadeIn">
                 <h3 className="auth__title">Register</h3>
                           
        
@@ -111,7 +111,7 @@ const RegisterScreen = () => {
                                     If you have an account sing in
                                 </Link>
                 </Form>
-            </> 
+            </div> 
         )}
         </Formik>          
     )

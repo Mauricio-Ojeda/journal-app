@@ -5,6 +5,8 @@ import JournalApp from './JournalApp';
 
 import reportWebVitals from './reportWebVitals';
 
+
+import 'bootstrap/dist/css/bootstrap.css';
 import './styles/styles.scss';
 
 ReactDOM.render(

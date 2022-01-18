@@ -10,14 +10,21 @@ const JournalScreen = () => {
     const { active } = useSelector( state => state.notes );
 
     return (
-        <div className="journal__main-content">
-            <Sidebar/>
+        <div className="container-fluid">
+            <div className="journal__main-content animate__animated animate__fadeIn row">
+                
+                <div className="col-lg-4 col-md-3 col-sm-12 col-xs-12 ">
+                    <Sidebar/>
 
-            <main>
-                { active ? <NoteScreen /> : <NothingSelected />}
-                    
+                </div>    
 
-            </main>
+                <main id='noteScreen' className='col-lg-8 col-md-9 col-sm-12 col-xs-12'>
+                    { active ? <NoteScreen /> : <NothingSelected />}
+                        
+
+                </main>
+            </div>
+
         </div>
     )
 }
