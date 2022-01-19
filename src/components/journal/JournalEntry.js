@@ -1,18 +1,27 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { activeNote } from '../../actions/notes';
+import Swal from 'sweetalert2';
 
 const JournalEntry = ({ id, date, title, body, url }) => {
 
     const noteScreen = document.querySelector('#noteScreen');
+    const { newEntry } = useSelector( state => state.ui );
 
     const noteDate = dayjs( date );
     const dispatch = useDispatch();
     
     const handleEntryNote = () => {
-        dispatch( activeNote( id, { date, title, body, url } ) );
-        noteScreen.scrollIntoView({behavior: "smooth"});
+        if (newEntry) {
+            Swal.fire('Finish your Note', 'Save your note to see other entry', 'info');
+            
+            
+        } else{
+            dispatch( activeNote( id, { date, title, body, url } ) );
+            noteScreen.scrollIntoView({behavior: "smooth"});
+        }
+                
     }    
     
     return (

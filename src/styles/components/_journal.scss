@@ -28,7 +28,7 @@
         transition: color .4s ease-in;
         &:hover{
             color: darken($color: #f6f6f6, $amount: 20);
-        }
+        }       
     }
     .journal__entries{
         flex: 1 1 auto;

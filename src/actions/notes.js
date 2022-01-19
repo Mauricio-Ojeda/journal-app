@@ -3,7 +3,7 @@ import { collection, doc, addDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { loadNotes } from "../helpers/loadNotes";
 import { types } from "../types/types";
-import { finishLoading, startLoading } from "./ui";
+import { finishLoading, finishNewEntry, startLoading, startNewEntry } from "./ui";
 import { fileUpload } from "../helpers/fileUpload";
 
 
@@ -11,17 +11,25 @@ export const startNewNote = () =>{
     return async ( dispatch, getState ) => {
         dispatch( startLoading() );
         const uid = getState().auth.uid;
-                
-        const newNote = {
-            title:'',
-            body:'',
-            date: new Date().getTime(),
+        const newEntry = getState().ui.newEntry;
+        
+        if (!newEntry) {
+            const newNote = {
+                title:'',
+                body:'',
+                date: new Date().getTime(),
+            }
+            
+            const docRef = await addDoc( collection(db, `${ uid }/journal/notes`), newNote);
+            
+            dispatch( activeNote( docRef.id, newNote ) );              
+            dispatch( finishLoading() );
+            dispatch( startNewEntry() );
+            
+        } else{
+            Swal.fire('Finish your Note', 'Save your note to make a new entry', 'info');
         }
-        
-        const docRef = await addDoc( collection(db, `${ uid }/journal/notes`), newNote);
-        
-        dispatch( activeNote( docRef.id, newNote ) );              
-        dispatch( finishLoading() );
+                
 
     }
 };
@@ -51,6 +59,7 @@ export const setNotes = ( notes ) => ({
 export const startSaveNote = ( note ) => {
     return async ( dispatch, getState ) => {
         const uid = getState().auth.uid;
+        dispatch( finishNewEntry() );
         
         if( !note.url ){
             delete note.url;

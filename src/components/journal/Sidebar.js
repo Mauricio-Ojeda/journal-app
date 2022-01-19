@@ -7,7 +7,7 @@ const Sidebar = () => {
     const noteScreen = document.querySelector('#noteScreen');
 
     const dispatch = useDispatch();
-    const { name } = useSelector( state => state.auth );
+    const { name } = useSelector( state => state.auth );             
 
     const handleLogOut = () => {
         dispatch( startLogout() );
@@ -34,12 +34,12 @@ const Sidebar = () => {
 
             </div>
 
-            <div 
+            <div                 
                 className="journal__new-entry"
-                onClick={ handleAddNew }
+                onClick={ handleAddNew }                
             >
                 <i className="far fa-calendar-plus fa-5x"></i>
-                <p className="mt-5">new entry</p>
+                <p className="mt-1">new entry</p>
             </div>
 
 
